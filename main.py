@@ -104,6 +104,41 @@ try:
                       values='count',
                       title='Tendencia de uso')
         st.plotly_chart(fig,use_container_width=True)
+        
+        
+    
+    # Seccion interactiva
+    st.header("🔄️ Visualizaciones Interactivas ")
+    # Dataset
+    dataset_choice = st.radio(
+        "Selecciona el conjunto de datos",
+        ["Lenguaje de programacion", "Iris Datase"]
+    )
+    
+    # Validacion de dataset
+    if dataset_choice == 'Lenguaje de programacion' :
+        df = prog_df
+    else :
+        df = iris_df
+    
+    # Tipo de grafico
+    chart_type = st.selectbox(
+        "Selecciona el tipo de grafico",
+        ["Barras", "Dispersion", "Linea"]
+    )
+    
+    # Selector de datos
+    x_axis = st.selectbox("Selecciona el eje x", df.columns)
+    y_axis = st.selectbox("Selecciona el eje y", df.columns)
+    
+    if chart_type == "Barras":
+        fig = px.bar(df,x=x_axis, y=y_axis)
+    elif chart_type == "Dispersion":
+        fig = px.scatter(df,x=x_axis, y=y_axis)
+    else:
+        fig = px.line(df,x=x_axis, y=y_axis)
+        
+    st.plotly_chart(fig,use_container_width=True)
     
 except Exception as e:
     st.error(f"Error al cargar los datos: {str(e)}")
